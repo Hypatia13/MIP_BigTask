@@ -36,6 +36,7 @@ content="default-src * gap: ws: https://ssl.gstatic.com;style-src * 'unsafe-inli
 <link rel="stylesheet" type="text/css" href="css/index.css">
 <title>MIP BigTask</title>
 
+
 </head>
 <body>
 	<h1>Mobile Internet Programming Project</h1>
@@ -50,9 +51,15 @@ content="default-src * gap: ws: https://ssl.gstatic.com;style-src * 'unsafe-inli
     <input id="addr" type="text">
     <button class="btn" id="getCoord" type="button"><span>Travel from here!</span></button>
     <div id="coordInfo"></div>
+
+	<h3>Your Final Destination</h3>
+	<input id="finalDest" type="text">
+	<button class="btn" id="calculateDist" type="button" onclick="showDist()"><span>How far is it?</span></button>
+	<div id="calculatedDist"></div>
 	
+
 	<script type="text/javascript" src="cordova.js"></script>
-	<script type="text/javascript" src="js/index.js"></script>
+	<script type="text/javascript" src="js/index2.js"></script>
 	  <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCnxEYOB02KQV1cBNCNImUaJP9ZjfJ9Y3A&callback=initMap"
   type="text/javascript"></script>
 </body>
@@ -63,6 +70,12 @@ https://developers.google.com/maps/documentation/javascript/examples
 https://developers.google.com/maps/documentation/javascript/geocoding
 https://developers.google.com/maps/documentation/javascript/geolocation
 https://www.w3schools.com/html/html5_geolocation.asp
-https://www.sitepoint.com/community/t/obtaining-latitude-longitude-from-gmapsv3/29034
+https://www.aspsnippets.com/Articles/Google-Maps-V3-API-Calculate-distance-between-two-addresses-points-locations.aspx - ??????
+https://developers.google.com/maps/documentation/javascript/distancematrix
+https://developers.google.com/maps/documentation/javascript/examples/distance-matrix
+https://developers.google.com/maps/documentation/javascript/directions
+https://developers.google.com/maps/documentation/javascript/examples/directions-simple
+https://developers.google.com/maps/documentation/javascript/examples/directions-panel
+
 
 -->
