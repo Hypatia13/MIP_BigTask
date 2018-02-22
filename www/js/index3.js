@@ -25,24 +25,17 @@ var app = {
     },
 
     onDeviceReady: function() {
-        // Initialoze all buttons on DeviceReady
-
-       /* var yourCoord = document.getElementById('yourCoord');
-        yourCoord.addEventListener('click', displayUserLoc);*/
-        document.getElementById('yourCoord').addEventListener('click', displayUserLoc);
-        document.getElementById('calculateDist').addEventListener('click', calculateDist);
-
+       
     }
 };
 
 // Initilize a Google Map
 function initMap() {
-    mapView = { lat: 37.7726, lng: -122.409 }; //Removing var from mapview, shows the marker
+    mapView = { lat: 37.7726, lng: -122.409 }; 
     map = new google.maps.Map(document.getElementById('map'), {
         center: mapView,
         zoom: 8
     });
-    // placeMapMarker(mapView, map);
 
     var geocoder = new google.maps.Geocoder();
     document.getElementById('getCoord').addEventListener('click', function() {
@@ -64,15 +57,16 @@ function geoAddress(geocoder, map) {
         if (status == 'OK') {
             map.setCenter(results[0].geometry.location);
             // marker.setPosition(results[0].geometry.location); ????????????? doesn't work
-         // LOAD results[0].geometry.location into POSITION somehow
+            // LOAD results[0].geometry.location into POSITION somehow
             placeMapMarker(results[0].geometry.location, map); // Need to use proper parameters
             /*  Alternative
             var marker = new google.maps.Marker({
                 map: map,
                 position: results[0].geometry.location
             });
-*/            coordInfo.innerHTML =
-                'Your fabulous self wants to be at ' + results[0].geometry.location.lat() + ', ' + results[0].geometry.location.lng();
+*/
+            coordInfo.innerHTML =
+                'You want to be at ' + results[0].geometry.location.lat() + ', ' + results[0].geometry.location.lng();
 
         } else {
             alert('Was unable to find it now');
@@ -92,44 +86,65 @@ function showLocation(position) {
     var userLatitude = position.coords.latitude;
     var userLongitude = position.coords.longitude;
     var userLocation = new google.maps.LatLng(userLatitude, userLongitude)
-    document.getElementById("userInfo").innerHTML = 'Your fabulous self is currently at ' + userLatitude + ', ' + userLongitude;
+    document.getElementById("userInfo").innerHTML = 'You are currently at ' + userLatitude + ', ' + userLongitude;
     map.setCenter(userLocation);
     placeMapMarker(userLocation, map);
 }
 
 
-function calculateDist() {
+function showDist() {
     var initialP = document.getElementById('addr').value;
     var finalP = document.getElementById('finalDest').value;
-    map.setCenter(finalP);
-    // placeMapMarker(finalP, map);
+
+    var directionsService = new google.maps.DirectionsService;
+    var directionsDisplay = new google.maps.DirectionsRenderer;
+
+    directionsDisplay.setMap(map); 
+    directionsDisplay.setPanel(document.getElementById('routeInstructions'));
+    
+    var request = {
+        origin: initialP,
+        destination: finalP,
+        travelMode: 'DRIVING'
+    };
+
+ directionsService.route(request, function(response, status) {
+        if (status == 'OK') {
+            directionsDisplay.setDirections(response);
+        }
+    });
+
 
     var service = new google.maps.DistanceMatrixService();
 
     service.getDistanceMatrix({
-            origins: [initialP],
-            destinations: [finalP],
-            travelMode: 'DRIVING',
-            unitSystem: google.maps.UnitSystem.METRIC,
-            avoidTolls: false,
-            avoidHighways: false
-        }, callback);
+        origins: [initialP],
+        destinations: [finalP],
+        travelMode: 'DRIVING',
+        unitSystem: google.maps.UnitSystem.METRIC,
+        avoidTolls: false,
+        avoidHighways: false
+    }, callback);
 
-
-        // Replace the second argument after &&
+         // Replace the second argument after &&
         function callback(response, status) {
-            if (status == 'OK' && response.rows[0].elements[0].status != "ZERO_RESULTS") {
-                var calcDistance = response.rows[0].elements[0].distance.text;
-                var calcDuration = response.rows[0].elements[0].duration.text;
+        if (status == 'OK' && response.rows[0].elements[0].status != "ZERO_RESULTS") {
+            var calcDistance = response.rows[0].elements[0].distance.text;
+            var calcDuration = response.rows[0].elements[0].duration.text;
 
-                document.getElementById("calculatedDist").innerHTML = "It will take you " + calcDuration + " to travel " + calcDistance + " to get from " + initialP + " to " + finalP;
+            document.getElementById("calculatedDist").innerHTML = "Your journey of " + calcDistance + " will take you " + calcDuration;
 
-            } else {
-                alert("You cannot get there by car!");
-            }
-            /*  else {
-                  alert("Couldn't find the desired locations")
-              }*/
-        };
+        } else {
+            alert("You cannot get there by car!");
+        }
+       
+    };
+
+
+       
+
+
+
+   
 }
 app.initialize();

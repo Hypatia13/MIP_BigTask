@@ -18,8 +18,9 @@ specific language governing permissions and limitations
 under the License.
 -->
 <html>
+
 <head>
-	<!--
+    <!--
 	Customize this policy to fit your own app's needs. For more guidance, see:
 	https://github.com/apache/cordova-plugin-whitelist/blob/master/README.md#content-security-policy
 	Some notes:
@@ -28,21 +29,19 @@ under the License.
 	* Disables use of inline scripts in order to mitigate risk of XSS vulnerabilities. To change this:
 	* Enable inline JS: add 'unsafe-inline' to default-src
 -->
-<meta http-equiv="Content-Security-Policy"
-content="default-src * gap: ws: https://ssl.gstatic.com;style-src * 'unsafe-inline' 'self' data: blob:;script-src * 'unsafe-inline' 'unsafe-eval' data: blob:;img-src * data: 'unsafe-inline' 'self'">
-<meta name="format-detection" content="telephone=no">
-<meta name="msapplication-tap-highlight" content="no">
-<meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
-<link rel="stylesheet" type="text/css" href="css/index.css">
-<title>MIP BigTask</title>
-
-
+    <meta http-equiv="Content-Security-Policy" content="default-src * gap: ws: https://ssl.gstatic.com;style-src * 'unsafe-inline' 'self' data: blob:;script-src * 'unsafe-inline' 'unsafe-eval' data: blob:;img-src * data: 'unsafe-inline' 'self'">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="msapplication-tap-highlight" content="no">
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
+    <link rel="stylesheet" type="text/css" href="css/index.css">
+    <title>MIP BigTask</title>
+ 
 </head>
-<body>
-	<h1>Mobile Internet Programming Project</h1>
-	<div id="map"></div>
 
-	<h3>Find Waldo</h3>
+<body>
+    <h1>Mobile Internet Programming Project</h1>
+    <div id="map"></div>
+    <h3>Find Waldo</h3>
     <button class="btn" id="userLocation" type="button" onclick="displayUserLoc()"><span>Find Me!</span></button>
     <div id="userInfo"></div>
     
@@ -51,30 +50,28 @@ content="default-src * gap: ws: https://ssl.gstatic.com;style-src * 'unsafe-inli
     <input id="addr" type="text">
     <button class="btn" id="getCoord" type="button"><span>Travel from here!</span></button>
     <div id="coordInfo"></div>
-
-	<h3>Your Final Destination</h3>
-	<input id="finalDest" type="text">
-	<button class="btn" id="calculateDist" type="button" onclick="showDist()"><span>How far is it?</span></button>
-	<div id="calculatedDist"></div>
-	
-
-	<script type="text/javascript" src="cordova.js"></script>
-	<script type="text/javascript" src="js/index2.js"></script>
-	  <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCnxEYOB02KQV1cBNCNImUaJP9ZjfJ9Y3A&callback=initMap"
-  type="text/javascript"></script>
+    <h3>Your Final Destination</h3>
+    <input id="finalDest" type="text">
+    <button class="btn" id="calculateDist" type="button" onclick="showDist()"><span>How far is it?</span></button>
+    <div id="calculatedDist"></div>
+    <div id="routeInstructions" </div>
+       
+    <script type="text/javascript" src="cordova.js"></script>
+    <script type="text/javascript" src="js/index3.js"></script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCnxEYOB02KQV1cBNCNImUaJP9ZjfJ9Y3A&callback=initMap" type="text/javascript"></script>
 </body>
-</html>
 
+</html>
 <!-- 
-https://developers.google.com/maps/documentation/javascript/examples 
+https://developers.google.com/maps/documentation/javascript/
+https://developers.google.com/maps/documentation/javascript/examples/
+https://github.com/apache/cordova-plugin-geolocation
 https://developers.google.com/maps/documentation/javascript/geocoding
 https://developers.google.com/maps/documentation/javascript/geolocation
 https://www.w3schools.com/html/html5_geolocation.asp
-https://www.aspsnippets.com/Articles/Google-Maps-V3-API-Calculate-distance-between-two-addresses-points-locations.aspx - ??????
 https://developers.google.com/maps/documentation/javascript/distancematrix
-https://developers.google.com/maps/documentation/javascript/examples/distance-matrix
 https://developers.google.com/maps/documentation/javascript/directions
-https://developers.google.com/maps/documentation/javascript/examples/directions-simple
+https://www.aspsnippets.com/Articles/Google-Maps-V3-API-Calculate-distance-between-two-addresses-points-locations.aspx
 https://developers.google.com/maps/documentation/javascript/examples/directions-panel
 
 

@@ -26,16 +26,19 @@ var app = {
 
     onDeviceReady: function() {
 
+        var yourCoord = document.getElementById('yourCoord');
+        yourCoord.addEventListener('click', displayUserLoc);
     }
 };
 
 // Initilize a Google Map
 function initMap() {
-    mapView = { lat: 37.7726, lng: -122.409 }; 
+    mapView = { lat: 37.7726, lng: -122.409 }; //Removing var from mapview, shows the marker
     map = new google.maps.Map(document.getElementById('map'), {
         center: mapView,
         zoom: 8
     });
+    addMarkerToMap(mapView, map);
 
     var geocoder = new google.maps.Geocoder();
     document.getElementById('getCoord').addEventListener('click', function() {
@@ -58,13 +61,20 @@ function geoAddress(geocoder, map) {
 
             map.setCenter(results[0].geometry.location);
 
-      
-			addMarkerToMap(results[0].geometry.location, map); 
+            // marker.setPosition(results[0].geometry.location); ????????????? doesn't work
 
-        
 
+            // LOAD results[0].geometry.location into POSITION somehow
+			addMarkerToMap(results[0].geometry.location, map); // Need to use proper parameters
+
+           /*  Alternative
+            var marker = new google.maps.Marker({
+                map: map,
+                position: results[0].geometry.location
+            });
+*/
 			 coordInfo.innerHTML =
-                'You want to be at ' + results[0].geometry.location.lat() +  ', ' + results[0].geometry.location.lng();
+                'Your fabulous self wants to be at ' + results[0].geometry.location.lat() +  ', ' + results[0].geometry.location.lng();
 
         } else {
             alert('Was unable to find it now');
@@ -84,7 +94,7 @@ function showLocation(position) {
 	var userLatitude = position.coords.latitude;
     var userLongitude = position.coords.longitude;
     var userLocation = new google.maps.LatLng(userLatitude, userLongitude)
-	document.getElementById("userInfo").innerHTML = 'You are currently at ' + userLatitude +  ', ' + userLongitude;
+	document.getElementById("userInfo").innerHTML = 'Your fabulous self is currently at ' + userLatitude +  ', ' + userLongitude;
 	map.setCenter(userLocation);
 	addMarkerToMap(userLocation, map);
 }
