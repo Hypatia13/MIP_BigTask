@@ -1,4 +1,5 @@
 /*
+/*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
  * distributed with this work for additional information
@@ -25,29 +26,26 @@ var app = {
     },
 
     onDeviceReady: function() {
-
-        var yourCoord = document.getElementById('yourCoord');
-        yourCoord.addEventListener('click', displayUserLoc);
+        
     }
 };
 
 // Initilize a Google Map
 function initMap() {
-    mapView = { lat: 37.7726, lng: -122.409 }; //Removing var from mapview, shows the marker
+    mapView = { lat: 37.7726, lng: -122.409 }; 
     map = new google.maps.Map(document.getElementById('map'), {
         center: mapView,
         zoom: 8
     });
-    addMarkerToMap(mapView, map);
 
     var geocoder = new google.maps.Geocoder();
     document.getElementById('getCoord').addEventListener('click', function() {
-            geoAddress(geocoder, map);
-        });
+        geoAddress(geocoder, map);
+    });
 
 }
 
-function addMarkerToMap(position, map) {
+function placeMapMarker(position, map) {
     var marker = new google.maps.Marker({
         position: position,
         map: map
@@ -58,23 +56,13 @@ function geoAddress(geocoder, map) {
     var addrInput = document.getElementById('addr').value;
     geocoder.geocode({ 'address': addrInput }, function(results, status) {
         if (status == 'OK') {
-
             map.setCenter(results[0].geometry.location);
+            
+            
+            placeMapMarker(results[0].geometry.location, map); 
 
-            // marker.setPosition(results[0].geometry.location); ????????????? doesn't work
-
-
-            // LOAD results[0].geometry.location into POSITION somehow
-			addMarkerToMap(results[0].geometry.location, map); // Need to use proper parameters
-
-           /*  Alternative
-            var marker = new google.maps.Marker({
-                map: map,
-                position: results[0].geometry.location
-            });
-*/
-			 coordInfo.innerHTML =
-                'Your fabulous self wants to be at ' + results[0].geometry.location.lat() +  ', ' + results[0].geometry.location.lng();
+            coordInfo.innerHTML =
+                'You want to be at ' + results[0].geometry.location.lat() + ', ' + results[0].geometry.location.lng();
 
         } else {
             alert('Was unable to find it now');
@@ -82,21 +70,90 @@ function geoAddress(geocoder, map) {
     });
 }
 
+var userGeoLocLat;
+var userGeoLocLng;
+
 function displayUserLoc() {
-	if (navigator.geolocation) {
-		navigator.geolocation.getCurrentPosition(showLocation);
-	} else {
-		document.getElementById("userInfo").innerHTML = "Couldn't find ya this time";
-	}
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(showLocation);
+    } else {
+        document.getElementById("userInfo").innerHTML = "Couldn't find ya this time";
+    }
 }
 
 function showLocation(position) {
-	var userLatitude = position.coords.latitude;
-    var userLongitude = position.coords.longitude;
-    var userLocation = new google.maps.LatLng(userLatitude, userLongitude)
-	document.getElementById("userInfo").innerHTML = 'Your fabulous self is currently at ' + userLatitude +  ', ' + userLongitude;
-	map.setCenter(userLocation);
-	addMarkerToMap(userLocation, map);
+    userGeoLocLat = position.coords.latitude;
+    userGeoLocLng = position.coords.longitude;
+    var userLocation = new google.maps.LatLng(userGeoLocLat, userGeoLocLng)
+    document.getElementById("userInfo").innerHTML = 'You are currently at ' + userGeoLocLat + ', ' + userGeoLocLng;
+    map.setCenter(userLocation);
+    placeMapMarker(userLocation, map);
 }
 
+
+function showDist() {
+    var initialP = document.getElementById('addr').value;
+    var finalP = document.getElementById('finalDest').value;
+
+    var directionsService = new google.maps.DirectionsService;
+    var directionsDisplay = new google.maps.DirectionsRenderer;
+
+    directionsDisplay.setMap(map);
+    directionsDisplay.setPanel(document.getElementById('routeInstructions'));
+
+    var request = {
+        origin: initialP,
+        destination: finalP,
+        travelMode: 'DRIVING'
+    };
+
+    directionsService.route(request, function(response, status) {
+        if (status == 'OK') {
+            directionsDisplay.setDirections(response);
+        }
+    });
+
+
+    var service = new google.maps.DistanceMatrixService();
+
+    service.getDistanceMatrix({
+        origins: [initialP],
+        destinations: [finalP],
+        travelMode: 'DRIVING',
+        unitSystem: google.maps.UnitSystem.METRIC,
+        avoidTolls: false,
+        avoidHighways: false
+    }, callback);
+
+    
+    function callback(response, status) {
+        if (status == 'OK' && response.rows[0].elements[0].status != "ZERO_RESULTS") {
+            var calcDistance = response.rows[0].elements[0].distance.text;
+            var calcDuration = response.rows[0].elements[0].duration.text;
+
+            document.getElementById("calculatedDist").innerHTML = "Your journey of " + calcDistance + " will take you " + calcDuration;
+
+        } else {
+            alert("You cannot get there by car!");
+        }
+
+    };
+}
+
+
+
+// Add info to the Firebase 
+
+function addCommentOnLocation(locationLat, locationLng, userComment) {
+    var userComment = document.getElementById('userComment').value;
+
+    firebase.database().ref('userComment/').push({
+        locationLat: userGeoLocLat,
+        locationLng: userGeoLocLng,
+        userComment: userComment
+    });
+    document.getElementById('commentAdded').innerHTML = "Your contribution is much appreciated";;
+    
+}
 app.initialize();
+
