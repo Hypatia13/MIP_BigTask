@@ -38,28 +38,35 @@ under the License.
 </head>
 
 <body>
-    <h1>Mobile Internet Programming Project</h1>
-    <div id="map"></div>
-    <h3>Find Waldo</h3>
-    <button class="btn" id="userLocation" type="button" onclick="displayUserLoc()">Find Me!</button>
-    <div id="userInfo"></div>
-    <h3>Your starting point</h3>
-    <input id="addr" type="text">
-    <button class="btn" id="getCoord" type="button">Travel from here!</button>
-    <div id="coordInfo"></div>
-    <h3>Your Final Destination</h3>
-    <input id="finalDest" type="text">
-    <button class="btn" id="calculateDist" type="button" onclick="showDist()">How far is it?</button>
-    <div id="calculatedDist"></div>
-    <div id="routeInstructions"> </div>
-    <h3>Add Info to database</h3>
-    <div>
-    <textarea id="userComment" placeholder="Add information about your location"></textarea>
-    <br />
-    <button class="btn" id="leaveComment" type="button" onclick="addCommentOnLocation()">Send</button>
-     
-    <div id="intelSentStat"></div>
+
+    <div id="sidepanel">
+        <h1>Mobile Internet Programming Project</h1>
+
+        <h3>Find Waldo</h3>
+        <button class="btn" id="userLocation" type="button" onclick="displayUserLoc()">Find Me!</button>
+        <div id="userInfo"></div>
+        <h3>Your Starting point</h3>
+        <input id="addr" type="text">
+        <button class="btn" id="getCoord" type="button">Travel from here!</button>
+        <div id="coordInfo"></div>
+        <h3>Your Final Destination</h3>
+        <input id="finalDest" type="text">
+        <button class="btn" id="calculateDist" type="button" onclick="showDist()">How far is it?</button>
+        <div id="calculatedDist"></div>
+        <h3>Add Info to database</h3>
+        <textarea id="userComment" placeholder="Add information about your location"></textarea>
+        <br />
+        <button class="btn" id="leaveComment" type="button" onclick="addCommentOnLocation()">Send</button>
+         
+        <div id="commentAdded"></div>
+
+        <div id="routeInstructions"> </div>
+
     </div>
+
+        <div id="map"></div>
+
+
     <script src="https://www.gstatic.com/firebasejs/4.10.0/firebase.js"></script>
     <script>
     // Initialize Firebase
@@ -74,7 +81,7 @@ under the License.
     firebase.initializeApp(config);
     </script>
     <script type="text/javascript" src="cordova.js"></script>
-    <script type="text/javascript" src="js/index3.js"></script>
+    <script type="text/javascript" src="js/index.js"></script>
     <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCnxEYOB02KQV1cBNCNImUaJP9ZjfJ9Y3A&callback=initMap" type="text/javascript"></script>
 </body>
 

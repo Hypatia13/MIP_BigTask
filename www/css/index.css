@@ -1,5 +1,25 @@
-   #map {
-        height: 500px;
-        width: 100%;
-       
-    }
+ body {
+     height: 100%;
+     margin: 0;
+     padding: 0;
+ }
+
+ #map {
+     height: 100%;
+     width: 73%;
+     margin-left: 400px;
+     position: absolute;
+ }
+
+ #sidepanel {
+     padding-left: 15px;
+     height: 750px;
+     width: 390px;
+     overflow: auto;
+     float: left;
+     line-height: 30px;
+ }
+
+ #userComment {
+     width: 250px;
+ }
