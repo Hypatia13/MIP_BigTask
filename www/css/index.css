@@ -23,3 +23,17 @@
  #userComment {
      width: 250px;
  }
+
+
+
+/*@media (min-width: 30em) {
+
+    #map {
+        width: 70%;
+    }
+
+    #sidepanel {
+        width: 30%;
+        
+    }
+}*/

@@ -26,13 +26,17 @@ var app = {
     },
 
     onDeviceReady: function() {
-        
+
+        document.getElementById("userLocation").addEventListener("click", displayUserLoc);
+        document.getElementById("calculateDist").addEventListener("click", showDist);
+        document.getElementById("leaveComment").addEventListener("click", addCommentOnLocation);
+
     }
 };
 
 // Initilize a Google Map
 function initMap() {
-    mapView = { lat: 37.7726, lng: -122.409 }; 
+    mapView = { lat: 37.7726, lng: -122.409 };
     map = new google.maps.Map(document.getElementById('map'), {
         center: mapView,
         zoom: 8
@@ -57,9 +61,9 @@ function geoAddress(geocoder, map) {
     geocoder.geocode({ 'address': addrInput }, function(results, status) {
         if (status == 'OK') {
             map.setCenter(results[0].geometry.location);
-            
-            
-            placeMapMarker(results[0].geometry.location, map); 
+
+
+            placeMapMarker(results[0].geometry.location, map);
 
             coordInfo.innerHTML =
                 'You want to be at ' + results[0].geometry.location.lat() + ', ' + results[0].geometry.location.lng();
@@ -125,7 +129,7 @@ function showDist() {
         avoidHighways: false
     }, callback);
 
-    
+
     function callback(response, status) {
         if (status == 'OK' && response.rows[0].elements[0].status != "ZERO_RESULTS") {
             var calcDistance = response.rows[0].elements[0].distance.text;
@@ -153,7 +157,6 @@ function addCommentOnLocation(locationLat, locationLng, userComment) {
         userComment: userComment
     });
     document.getElementById('commentAdded').innerHTML = "Your contribution is much appreciated";;
-    
+
 }
 app.initialize();
-
